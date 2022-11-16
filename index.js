@@ -38,20 +38,39 @@ const TeacherSchema= new mongoose.Schema(
 
 const teacher_data = mongoose.model('teachers',TeacherSchema);
 
-//insertion in database
+//insertion in database by api method-------------------
 
-const saveInDb=async()=>{
-  let data = new teacher_data({
-    name:"tarun sir",
-    faculity:"Full Stack",
-    address:"Gurgaon"
-  });
-
-  const result = await data.save();
+app.post('/',async(req,res)=>{
+  let data= new student_data(req.body);
+  const result= await data.save();
+  res.send(result);
   console.log(result);
-}
-saveInDb();
+})
+ 
+//----updating the data with api -----------------
+
+app.put('/:_id',async(req,res)=>{
+  let data= await student_data.updateOne(req.params,{$set:req.body});
+  res.send(data);
+console.log(data);
+})
+
+//----deleting the data with api -----------------
+
+app.delete('/:_id',async(req,res)=>{
+  let data= await student_data.deleteOne(req.params);
+  res.send(data);
+console.log(data);
+})
+//reading data from  database by api method-----------------
+
+app.get('/',async(req,res)=>{
+  let data= await student_data.find()
+  res.send(data);
+  console.log(data);
+})
 
 app.listen(3000);
+
 
 
