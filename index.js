@@ -1,6 +1,8 @@
 
 import express from 'express';
 import mongoose from 'mongoose';
+// import studentContent from './student.js';
+import teacherContent from './teacher.js';
 const app = express();
 app.use(express.json());
 
@@ -41,10 +43,10 @@ const teacher_data = mongoose.model('teachers',TeacherSchema);
 //insertion in database by api method-------------------
 
 app.post('/',async(req,res)=>{
-  let data= new student_data(req.body);
-  const result= await data.save();
-  res.send(result);
-  console.log(result);
+  let data= await teacher_data.insertMany(teacherContent);
+  
+  res.send(data);
+  console.log(data);
 })
  
 //----updating the data with api -----------------
@@ -65,7 +67,7 @@ console.log(data);
 //reading data from  database by api method-----------------
 
 app.get('/',async(req,res)=>{
-  let data= await student_data.find()
+  let data= await teacher_data.find()
   res.send(data);
   console.log(data);
 })
